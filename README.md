@@ -87,7 +87,8 @@ page's first section never fades in, and `gtag.js` loads last.
 ## Deployment
 
 Every push to `main` builds the site and publishes `dist/` to the `gh-pages` branch, which GitHub Pages serves
-(`.github/workflows/deploy.yml`). `public/.nojekyll` stops Pages from hiding the `_astro` folder.
+(`.github/workflows/deploy.yml`). In **Settings > Pages**, the source is the `gh-pages` branch, root folder.
+`public/.nojekyll` stops Pages from hiding the `_astro` folder.
 
 ## Going live
 
