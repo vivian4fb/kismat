@@ -84,6 +84,11 @@ menu as crawlable HTML. `sitemap-index.xml`, `robots.txt` and `llms.txt`.
 Speed rules: CSS is inlined, fonts are self-hosted and preloaded, images are served at the size the device needs, each
 page's first section never fades in, and `gtag.js` loads last.
 
+## Deployment
+
+Every push to `main` builds the site and publishes `dist/` to the `gh-pages` branch, which GitHub Pages serves
+(`.github/workflows/deploy.yml`). `public/.nojekyll` stops Pages from hiding the `_astro` folder.
+
 ## Going live
 
 Only once the owner has agreed and `src/pending.json` is empty.
