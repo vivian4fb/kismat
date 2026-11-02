@@ -1,0 +1,104 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Faq from '../../components/Faq.astro';
+import Sprig from '../../components/Sprig.astro';
+import { dishPages } from '../../data/dishPages';
+import { areaPages } from '../../data/areaPages';
+import { links, withBase, dish, gbp, responsive, businessSchemaId, descriptions } from '../../config';
+
+export function getStaticPaths() {
+  return dishPages.map((page) => ({ params: { slug: page.slug }, props: { page } }));
+}
+const { page } = Astro.props as { page: (typeof dishPages)[number] & { img?: ImageMetadata; imgSmall?: boolean; alt?: string } };
+const items = page.dishes.map(dish);
+const others = dishPages.filter((d) => d.slug !== page.slug);
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: page.faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+const itemsSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: page.nav,
+  itemListElement: items.map((d, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    item: {
+      '@type': 'MenuItem',
+      name: d.name,
+      ...(descriptions[d.name] ? { description: descriptions[d.name] } : {}),
+      offers: { '@type': 'Offer', price: d.price.toFixed(2), priceCurrency: 'GBP', seller: { '@id': businessSchemaId(Astro.site) } },
+    },
+  })),
+};
+---
+<Base
+  title={page.nav}
+  titleFull={page.metaTitle}
+  description={page.metaDescription}
+  image={page.img && !page.imgSmall ? page.img : undefined}
+  breadcrumbs={[{ name: 'Home', path: '/' }, { name: 'Kerala dishes', path: '/dishes' }, { name: page.nav, path: `/dishes/${page.slug}` }]}
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(itemsSchema)} />
+  <section class="page-head on-leaf">
+    {!page.img && <Sprig class="page-sprig" />}
+    <div class="wrap page-head-grid">
+      <div>
+        <ol class="crumbs">
+          <li><a href={withBase('/')}>Home</a></li>
+          <li><a href={withBase('/dishes')}>Kerala dishes</a></li>
+          <li aria-current="page">{page.nav}</li>
+        </ol>
+        <h1>{page.h1}</h1>
+        <p class="lead">{page.lead}</p>
+      </div>
+      {page.img && (
+        <div class:list={['frame', { 'frame--small': page.imgSmall }]}>
+          <Image src={page.img} alt={page.alt ?? ''} {...(page.imgSmall ? responsive.small : responsive.card)} loading="eager" fetchpriority="high" />
+        </div>
+      )}
+    </div>
+  </section>
+  <div class="kasavu" aria-hidden="true"></div>
+
+  <section class="section">
+    <div class="wrap article">
+      <div class="prose">
+        {page.sections.map((s) => (
+          <>
+            <h2>{s.h2}</h2>
+            {s.body.map((p) => <p>{p}</p>)}
+          </>
+        ))}
+        <h2>Questions</h2>
+        <Faq items={page.faqs} />
+      </div>
+      <aside class="aside">
+        <h2>On our menu</h2>
+        <ul class="pricelist">
+          {items.map((d) => <li><span>{d.name}</span><b>{gbp(d.price)}</b></li>)}
+        </ul>
+        <a class="btn btn--leaf" href={links.order} target="_blank" rel="noopener">Order for collection</a>
+        <p class="small muted" style="margin-top:.9rem">Allergies? <a href={links.tel}>Call us</a> before you order.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section section--tint" style="padding-block:clamp(48px,6vw,80px)">
+    <div class="wrap">
+      <h2 style="font-size:1.9rem;margin-bottom:1rem">More from Kerala</h2>
+      <div class="chips">
+        {others.map((d) => <a class="chip" href={withBase(`/dishes/${d.slug}`)}>{d.nav}</a>)}
+        <a class="chip" href={withBase('/kerala-food-guide')}>Kerala food guide</a>
+      </div>
+      <h2 style="font-size:1.9rem;margin:2rem 0 1rem">Where we deliver</h2>
+      <div class="chips">
+        {areaPages.map((a) => <a class="chip" href={withBase(`/areas/${a.slug}`)}>{a.short}</a>)}
+      </div>
+    </div>
+  </section>
+</Base>

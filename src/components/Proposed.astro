@@ -1,0 +1,7 @@
+---
+// Marks a page or block as an idea the owner hasn't agreed yet. Preview only: on the
+// live site a proposed feature is either approved in config.ts or not built at all.
+import { PREVIEW } from '../config';
+const { label = 'Proposal: not yet confirmed by Kismat' } = Astro.props;
+---
+{PREVIEW && <span class="tag">{label}</span>}

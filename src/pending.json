@@ -1,0 +1,20 @@
+{
+  "_note": "Everything the owner still has to confirm before PREVIEW can be switched off. Numbers match the owner's list. Delete a line once it is confirmed and changed in config.ts or the menu sheet. scripts/check-dist.mjs fails a live build while any line remains.",
+  "pending": [
+    { "id": "1", "what": "Written permission to publish this site and use the name and logo" },
+    { "id": "2", "what": "Control of kismatleicester.co.uk, without breaking the ordering page or email" },
+    { "id": "3", "what": "Trading name, legal name, address, phone and opening hours confirmed" },
+    { "id": "4", "what": "Menu sheet corrected: dishes, prices, descriptions, vegetarian marks" },
+    { "id": "5", "what": "Allergen table for every dish, signed off by a named person" },
+    { "id": "6", "what": "Photo rights confirmed, or real photos supplied. Original logo file" },
+    { "id": "7", "what": "Signature dishes and the Kerala positioning approved" },
+    { "id": "8", "what": "Story and named person for the About page" },
+    { "id": "9", "what": "Halal status, parking, access and other visitor facts" },
+    { "id": "10", "what": "Privacy page: data controller and ICO registration" },
+    { "id": "11", "what": "WhatsApp number and who answers it" },
+    { "id": "12", "what": "Delivery: Just Eat link and delivery areas confirmed" },
+    { "id": "13", "what": "Catering offer approved, or feature switched off" },
+    { "id": "14", "what": "Christmas pre-orders approved, or feature switched off" },
+    { "id": "20", "what": "Google review link for the /review page" }
+  ]
+}

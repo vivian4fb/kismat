@@ -1,0 +1,82 @@
+---
+import Base from '../layouts/Base.astro';
+import menu from '../data/menu.json';
+import { links, site, gbp, descriptions, menuAsOf, withBase, PREVIEW, businessSchemaId } from '../config';
+
+const slug = (s: string) => s.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const descOf = (d: { name: string; desc: string }) => d.desc || descriptions[d.name] || '';
+
+// Menu structured data, so search engines can read dishes and prices.
+const menuSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Menu',
+  name: 'Kismat menu',
+  inLanguage: 'en-GB',
+  provider: { '@id': businessSchemaId(Astro.site) },
+  hasMenuSection: menu.sections.map((s) => ({
+    '@type': 'MenuSection',
+    name: s.label,
+    hasMenuItem: s.items.map((d) => ({
+      '@type': 'MenuItem',
+      name: d.name,
+      ...(descOf(d) ? { description: descOf(d) } : {}),
+      ...(d.veg ? { suitableForDiet: 'https://schema.org/VegetarianDiet' } : {}),
+      offers: { '@type': 'Offer', price: d.price.toFixed(2), priceCurrency: 'GBP' },
+    })),
+  })),
+};
+---
+<Base
+  title="Menu"
+  titleFull="Menu | Kismat Kerala Restaurant, Leicester"
+  description="The full Kismat menu with prices: Kerala beef roast, porotta, Malabar biriyani, kappa, mandi, fish curries, dosa, appam and vegetarian dishes. 52 Gateway Street, Leicester."
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(menuSchema)} />
+
+  <section class="page-head on-leaf">
+    <div class="wrap">
+      <p class="eyebrow">Eat in, collect or delivered</p>
+      <h1>The menu</h1>
+      <p class="lead">Prices as listed on our ordering page on {menuAsOf}. If a dish you want isn’t showing there today, call us.</p>
+      <div class="btn-row" style="margin-top:1.8rem">
+        <a class="btn btn--gold" href={links.order} target="_blank" rel="noopener">Order for collection</a>
+        <a class="btn btn--line" href={withBase('/areas')}>Delivery areas</a>
+      </div>
+    </div>
+  </section>
+  <div class="kasavu" aria-hidden="true"></div>
+
+  <section class="section" style="padding-top:clamp(40px,5vw,72px)">
+    <div class="wrap menu-layout">
+      <nav class="menu-index" aria-label="Menu sections">
+        {menu.sections.map((s) => <a href={`#${slug(s.label)}`}>{s.label}</a>)}
+        <a class="btn btn--leaf" href={links.order} target="_blank" rel="noopener">Order</a>
+      </nav>
+      <div>
+        <div class="notice">
+          <strong>Food allergies or intolerances?</strong> Please speak to us before you order, on <a href={links.tel}>{site.phoneDisplay}</a>. Don’t rely on a dish’s name or description to tell you what’s in it.
+          {PREVIEW && ' Dish-by-dish allergen information will appear here once Kismat has signed it off.'}
+        </div>
+        <p class="small muted" style="margin-top:1rem"><span class="veg" aria-hidden="true" style="margin-left:0;vertical-align:.1em">V</span> marked vegetarian on our ordering page.</p>
+
+        {menu.sections.map((s) => (
+          <section class="menu-section" id={slug(s.label)} style="margin-top:clamp(36px,5vw,64px)">
+            <h2>{s.label}</h2>
+            <ul>
+              {s.items.map((d) => (
+                <li class="mi">
+                  <div class="mi-top">
+                    <span class="mi-name">{d.name}{d.veg && <span class="veg" role="img" aria-label="marked vegetarian">V</span>}</span>
+                    <span class="mi-dots" aria-hidden="true"></span>
+                    <span class="mi-price">{gbp(d.price)}</span>
+                  </div>
+                  {descOf(d) && <p class="mi-desc">{descOf(d)}</p>}
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>

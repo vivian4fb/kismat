@@ -1,0 +1,37 @@
+---
+import Base from '../layouts/Base.astro';
+import { site, addressLine, PREVIEW } from '../config';
+
+const gaOn = (() => {
+  const id = (import.meta.env.PUBLIC_GA_ID || site.googleAnalyticsId || '').trim();
+  return id.startsWith('G-') && id !== 'G-XXXXXXXXXX';
+})();
+---
+<Base title="Privacy" titleFull="Privacy | Kismat, Leicester" description="How the Kismat website handles your information: cookies, analytics, enquiry forms and links to other services.">
+  <section class="page-head on-leaf">
+    <div class="wrap">
+      <p class="eyebrow">Privacy</p>
+      <h1>Your information</h1>
+    </div>
+  </section>
+  <div class="kasavu" aria-hidden="true"></div>
+  <section class="section">
+    <div class="wrap--narrow prose">
+      {PREVIEW && <p class="notice">This is a draft for the preview. Kismat’s legal name and ICO registration are still to be added.</p>}
+      <h2 style="margin-top:2rem">Who we are</h2>
+      <p>This website belongs to {site.businessName}, {addressLine}. You can reach us on {site.phoneDisplay}.</p>
+      <h2>Cookies and analytics</h2>
+      {gaOn ? (
+        <p>With your consent, we use Google Analytics to see how many people use the site and which pages and buttons they use. It sets cookies and sends this information to Google. If you choose “No thanks”, it doesn’t load at all. You can change your mind at any time using “Cookie settings” at the foot of each page.</p>
+      ) : (
+        <p>This site currently sets no cookies and loads no analytics.</p>
+      )}
+      <h2>Enquiry forms</h2>
+      <p>Our forms don’t save anything on this website. They prepare a message which you send yourself through WhatsApp, so WhatsApp’s own terms apply to it. We use what you send only to answer your enquiry.</p>
+      <h2>Other services we link to</h2>
+      <p>Ordering, delivery and maps are provided by others: our ordering page, Just Eat and Google Maps. When you follow those links, their own privacy notices apply.</p>
+      <h2>Your rights</h2>
+      <p>You can ask us what we hold about you, and ask us to correct or delete it. If you’re unhappy with how we’ve handled your information, you can complain to the Information Commissioner’s Office at ico.org.uk.</p>
+    </div>
+  </section>
+</Base>

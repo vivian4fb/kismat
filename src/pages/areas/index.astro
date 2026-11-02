@@ -1,0 +1,39 @@
+---
+import Base from '../../layouts/Base.astro';
+import { withBase, links } from '../../config';
+import { areaPages, areasCheckedOn, notListed } from '../../data/areaPages';
+---
+<Base title="Delivery areas" titleFull="Kerala Food Delivery in Leicester: Areas We Reach | Kismat" description="Where Kismat delivers in Leicester through Just Eat, and where to order for collection instead. Postcodes checked on 2 November 2026.">
+  <section class="page-head on-leaf">
+    <div class="wrap">
+      <p class="eyebrow">Delivery</p>
+      <h1>Where we deliver in Leicester</h1>
+      <p class="lead">Delivery runs through Just Eat, so it decides the area and the fee. We checked one postcode in each neighbourhood on {areasCheckedOn}. Enter your own postcode on Just Eat to be sure.</p>
+      <div class="btn-row" style="margin-top:1.8rem">
+        <a class="btn btn--gold" href={links.justEat} target="_blank" rel="noopener">Order on Just Eat</a>
+        <a class="btn btn--line" href={links.order} target="_blank" rel="noopener">Order for collection</a>
+      </div>
+    </div>
+  </section>
+  <div class="kasavu" aria-hidden="true"></div>
+  <section class="section">
+    <div class="wrap--narrow">
+      <div class="table-wrap reveal">
+        <table class="data">
+          <thead><tr><th>Area</th><th>Postcode checked</th><th>Distance from us</th></tr></thead>
+          <tbody>
+            {areaPages.map((a) => (
+              <tr>
+                <td><a href={withBase(`/areas/${a.slug}`)}>{a.short}</a></td>
+                <td class="num">{a.postcode}</td>
+                <td class="num">about {a.miles.toFixed(1)} miles</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <h2 style="font-size:clamp(1.9rem,3vw,2.4rem);margin:3rem 0 .8rem" class="reveal">Further out</h2>
+      <p class="muted reveal">Just Eat didn’t list us at the postcodes we checked in {notListed.join(', ')}. If you’re nearby, you’re welcome to order for collection.</p>
+    </div>
+  </section>
+</Base>

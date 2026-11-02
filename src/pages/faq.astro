@@ -1,0 +1,38 @@
+---
+import Base from '../layouts/Base.astro';
+import Faq from '../components/Faq.astro';
+import { faqCategories, faqs, features, withBase } from '../config';
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+<Base
+  title="Questions"
+  titleFull="Questions | Kismat Kerala Restaurant, Leicester"
+  description="Opening hours, ordering, delivery, vegetarian dishes, children's food and allergies at Kismat, 52 Gateway Street, Leicester."
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <section class="page-head on-leaf">
+    <div class="wrap">
+      <p class="eyebrow">Questions</p>
+      <h1>Good to know before you come</h1>
+    </div>
+  </section>
+  <div class="kasavu" aria-hidden="true"></div>
+  <section class="section">
+    <div class="wrap--narrow">
+      {faqCategories.map((c) => (
+        <div class="faq-group reveal">
+          <h2>{c.title}</h2>
+          <Faq items={c.items} />
+        </div>
+      ))}
+      <p class="muted" style="margin-top:3rem">
+        More on the food in the <a href={withBase('/kerala-food-guide')}>Kerala food guide</a>{features.catering && ', and on events in '}{features.catering && <a href={withBase('/catering')}>catering</a>}.
+      </p>
+    </div>
+  </section>
+</Base>

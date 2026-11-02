@@ -1,0 +1,36 @@
+---
+import { links, withBase, features } from '../config';
+
+const path = Astro.url.pathname;
+const left = [
+  { href: '/menu', label: 'Menu' },
+  { href: '/kerala-food-guide', label: 'Kerala food' },
+  ...(features.catering ? [{ href: '/catering', label: 'Catering' }] : []),
+];
+const right = [
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Visit' },
+];
+const current = (href: string) => (path.startsWith(withBase(href)) ? 'page' : undefined);
+---
+<header class="site-header">
+  <div class="wrap nav">
+    <nav class="nav-group" aria-label="Main">
+      {left.map((l) => <a class="nav-link" href={withBase(l.href)} aria-current={current(l.href)}>{l.label}</a>)}
+    </nav>
+    <a class="wordmark" href={withBase('/')} aria-label="Kismat, home">KISMAT</a>
+    <div class="nav-group nav-group--end">
+      {right.map((l) => <a class="nav-link" href={withBase(l.href)} aria-current={current(l.href)}>{l.label}</a>)}
+      <a class="btn btn--gold" href={withBase('/order')}>Order</a>
+    </div>
+    <details class="nav-mobile">
+      <summary aria-label="Open navigation"><span class="burger" aria-hidden="true"></span></summary>
+      <nav class="nav-panel" aria-label="Mobile">
+        {[...left, { href: '/order', label: 'Order' }, ...right, { href: '/faq', label: 'Questions' }].map((l) => (
+          <a href={withBase(l.href)}>{l.label}</a>
+        ))}
+        <a href={links.tel}>Call us</a>
+      </nav>
+    </details>
+  </div>
+</header>

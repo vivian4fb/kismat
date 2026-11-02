@@ -1,0 +1,72 @@
+---
+// Built only while features.catering is on. It's a route parameter, not a plain
+// page, so that switching the feature off leaves no page behind.
+import Base from '../layouts/Base.astro';
+import Proposed from '../components/Proposed.astro';
+import WhatsAppForm from '../components/WhatsAppForm.astro';
+import { features, withBase, dish, gbp, businessSchemaId } from '../config';
+
+export function getStaticPaths() {
+  return features.catering ? [{ params: { catering: 'catering' } }] : [];
+}
+
+const trays = ['Malabari Chicken Dum Biriyani', 'Veg Biriyani', 'Achayan Beef Roast', 'Chicken Stew', 'Veg Korma', 'Porotta (1pc)', 'Palappam (2pcs)'].map(dish);
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  serviceType: 'Catering',
+  name: 'Kerala catering in Leicester',
+  provider: { '@id': businessSchemaId(Astro.site) },
+  areaServed: { '@type': 'City', name: 'Leicester' },
+};
+---
+<Base
+  title="Catering"
+  titleFull="Kerala Catering in Leicester | Kismat"
+  description="Kerala catering in Leicester from Kismat: biriyani, beef roast, stew, porotta and appam for christenings, first communions, engagement parties and association events."
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(schema)} />
+  <section class="page-head on-leaf">
+    <div class="wrap">
+      <Proposed />
+      <p class="eyebrow">Catering</p>
+      <h1>Kerala catering in Leicester</h1>
+      <p class="lead">Biriyani, beef roast, stew, porotta and appam for christenings, first communions, engagement parties, association events and office lunches.</p>
+    </div>
+  </section>
+  <div class="kasavu" aria-hidden="true"></div>
+
+  <section class="section">
+    <div class="wrap article">
+      <div>
+        <h2 style="font-size:clamp(1.9rem,3vw,2.5rem);margin-bottom:1.3rem">Tell us about your event</h2>
+        <WhatsAppForm
+          method="catering_form"
+          intro="Hello Kismat, I'd like to ask about catering."
+          fields={[
+            { name: 'name', label: 'Your name', required: true },
+            { name: 'phone', label: 'Phone', type: 'tel', required: true },
+            { name: 'date', label: 'Date of the event', type: 'date', required: true },
+            { name: 'guests', label: 'Guests', options: ['Under 25', '25 to 50', '50 to 100', 'More than 100'], required: true },
+            { name: 'type', label: 'Type of event', options: ['Christening or first communion', 'Engagement or wedding', 'Birthday or family party', 'Association or church event', 'Office lunch', 'Something else'] },
+            { name: 'where', label: 'Where is it?' },
+            { name: 'notes', label: 'Dishes you’d like, dietary needs and allergies', type: 'textarea', full: true },
+          ]}
+        />
+      </div>
+      <aside class="aside">
+        <h2>How it works</h2>
+        <ol class="steps">
+          <li><span>Send us the date, numbers and what you’d like.</span></li>
+          <li><span>We reply with a menu and a price.</span></li>
+          <li><span>Confirm the order, and tell us about any allergies in your party.</span></li>
+        </ol>
+        <h2 style="margin-top:2rem">Ideas from our menu</h2>
+        <ul class="pricelist">
+          {trays.map((d) => <li><span>{d.name}</span></li>)}
+        </ul>
+        <a class="btn btn--line" href={withBase('/menu')}>The full menu</a>
+      </aside>
+    </div>
+  </section>
+</Base>

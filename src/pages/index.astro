@@ -1,0 +1,181 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Sprig from '../components/Sprig.astro';
+import Hours from '../components/Hours.astro';
+import Proposed from '../components/Proposed.astro';
+import GoogleReviews from '../components/GoogleReviews.astro';
+import { site, links, withBase, responsive, dish, gbp, descriptions, signatureText, glossary, features, menuStats, addressLine } from '../config';
+import prawns from '../images/prawns-banana-leaf.jpg';
+import beefRoast from '../images/beef-roast-clay-pot.jpg';
+import squid from '../images/squid-roast.jpg';
+import dosa from '../images/masala-dosa.jpg';
+import meal from '../images/kerala-meal.jpg';
+import chilli from '../images/chilli-chicken.jpg';
+
+const beef = dish('Achayan Beef Roast');
+const squidDish = dish('Kerala Style Squid Roast');
+const dosaDish = dish('Masala Dosa');
+const typed = signatureText.map((s) => ({ ...s, ...dish(s.name) }));
+---
+<Base
+  titleFull="Kismat | Kerala Restaurant & Takeaway in Leicester (LE2)"
+  description="Kerala restaurant and takeaway at 52 Gateway Street, Leicester. Porotta and beef roast, kappa biriyani, Malabar dum biriyani, fish moilee, dosa and mandi. Eat in, collect or have it delivered."
+>
+  <section class="hero on-leaf">
+    <Sprig class="hero-sprig" />
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">{addressLine}</p>
+        <h1>Kerala restaurant <em>&amp;</em> takeaway in Leicester</h1>
+        <p class="lead">Porotta and beef roast, kappa biriyani, Malabari dum biriyani, fish moilee, appam and dosa. Eat in, collect, or have it delivered.</p>
+        <div class="btn-row">
+          <a class="btn btn--gold" href={links.order} target="_blank" rel="noopener">Order for collection</a>
+          <a class="btn btn--line" href={withBase('/menu')}>See the menu</a>
+        </div>
+        <p class="status" data-open-status>Open from 1pm, closed Tuesdays</p>
+      </div>
+      <div class="arch">
+        <Image src={prawns} alt="Spiced prawn roast with curry leaves on a banana-leaf plate" {...responsive.hero} loading="eager" fetchpriority="high" />
+      </div>
+    </div>
+    <div class="kasavu" aria-hidden="true"></div>
+  </section>
+
+  <section class="section">
+    <div class="wrap sig">
+      <div class="sig-intro reveal">
+        <p class="eyebrow">Where to start</p>
+        <h2>The dishes that say Kerala</h2>
+        <p class="lead">Coconut, curry leaves, black pepper and a long coast’s worth of fish. If you’ve only known Indian food from a curry house, start here.</p>
+        <a class="textlink" href={withBase('/menu')}>The full menu</a>
+      </div>
+      <figure class="dish-fig sig-a reveal">
+        <Image src={beefRoast} alt="Dark Kerala beef roast with curry leaves and dried red chillies, in a clay pot lined with banana leaf" {...responsive.card} sizes="(max-width: 860px) calc(100vw - 40px), 700px" style="aspect-ratio:16/10" />
+        <figcaption>
+          <a href={withBase('/dishes/porotta-beef-roast')} style="text-decoration:none"><span class="dish-name">{beef.name}</span></a>
+          <span class="dish-price">{gbp(beef.price)}</span>
+          <span class="dish-desc">{descriptions[beef.name]} Have it with porotta.</span>
+        </figcaption>
+      </figure>
+      <ul class="typelist sig-list reveal">
+        {typed.map((t) => (
+          <li><a href={withBase(t.link)}><span class="tl-name">{t.name}</span><span class="tl-price">{gbp(t.price)}</span></a></li>
+        ))}
+      </ul>
+      <figure class="dish-fig sig-b reveal">
+        <Image src={squid} alt="Squid rings roasted in a dark masala with green pepper, in a copper pan" {...responsive.card} sizes="(max-width: 860px) 56vw, 300px" style="aspect-ratio:1/1" />
+        <figcaption>
+          <span class="dish-name">{squidDish.name}</span>
+          <span class="dish-price">{gbp(squidDish.price)}</span>
+          <span class="dish-desc">{descriptions[squidDish.name]}</span>
+        </figcaption>
+      </figure>
+      <figure class="dish-fig sig-c reveal">
+        <Image src={dosa} alt="Golden masala dosa on a dark plate with white and orange chutneys" {...responsive.small} style="aspect-ratio:1/1" />
+        <figcaption>
+          <a href={withBase('/dishes/dosa')} style="text-decoration:none"><span class="dish-name">{dosaDish.name}</span></a>
+          <span class="dish-price">{gbp(dosaDish.price)}</span>
+          <span class="dish-desc">{descriptions[dosaDish.name]}</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section on-leaf">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <p class="eyebrow">New to Kerala food?</p>
+          <h2>Six words that will get you through the menu</h2>
+        </div>
+        <a class="textlink" href={withBase('/kerala-food-guide')}>The Kerala food guide</a>
+      </div>
+      <div class="terms">
+        {glossary.slice(0, 6).map((g) => (
+          <div class="term reveal">
+            <h3>{g.term}</h3>
+            <p>{g.meaning}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="reveal" style="max-width:40em">
+        <p class="eyebrow">Three ways to eat</p>
+        <h2>At our table, or at yours</h2>
+      </div>
+      <div class="ways">
+        <div class="way reveal">
+          <span class="way-num">one</span>
+          <h3>Eat in</h3>
+          <p>Come to 52 Gateway Street. Online booking isn’t available at the moment, so call us if there are several of you.</p>
+          <a class="btn btn--line" href={links.tel}>Call {site.phoneDisplay}</a>
+        </div>
+        <div class="way reveal">
+          <span class="way-num">two</span>
+          <h3>Collect</h3>
+          <p>Order on our own ordering page, choose your time and pick it up from the restaurant.</p>
+          <a class="btn btn--leaf" href={links.order} target="_blank" rel="noopener">Order for collection</a>
+        </div>
+        <div class="way reveal">
+          <span class="way-num">three</span>
+          <h3>Delivered</h3>
+          <p>Delivery runs through Just Eat, which lists us in central Leicester and nearby postcodes.</p>
+          <a class="btn btn--line" href={withBase('/areas')}>See delivery areas</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tint">
+    <div class="wrap split split--flip">
+      <div class="arch arch--light reveal">
+        <Image src={meal} alt="A Kerala meal: rice on banana leaf with small bowls of curry, pickle and vegetables, with pappadom" {...responsive.card} style="aspect-ratio:1/1.05" />
+      </div>
+      <div class="reveal">
+        <p class="eyebrow">About the name</p>
+        <h2>Kismat means fate</h2>
+        <p class="lead">Kerala sits on India’s south-west coast, and its food has always looked outward: pepper and cardamom traded for centuries, Christian beef roasts, Malabar biriyanis, and mandi from long ties with the Gulf.</p>
+        <p class="muted">Our menu carries all of that in {menuStats.dishes} dishes, {menuStats.vegetarian} of them marked vegetarian.</p>
+        <a class="textlink" href={withBase('/about')}>About Kismat</a>
+      </div>
+    </div>
+  </section>
+
+  <GoogleReviews />
+
+  {features.catering && (
+    <section class="band">
+      <Image src={chilli} alt="" {...responsive.band} loading="lazy" />
+      <div class="wrap">
+        <div class="band-inner reveal">
+          <Proposed />
+          <p class="eyebrow">Catering</p>
+          <h2>Feeding a crowd?</h2>
+          <p>Biriyani, beef roast, porotta and appam for christenings, first communions, engagement parties and association events.</p>
+          <div class="btn-row"><a class="btn btn--gold" href={withBase('/catering')}>Ask about catering</a></div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section">
+    <div class="wrap visit">
+      <div class="reveal">
+        <p class="eyebrow">Visit</p>
+        <address class="visit-address">52 Gateway Street,<br />Leicester LE2 7DP</address>
+        <div class="btn-row">
+          <a class="btn btn--leaf" href={links.maps} target="_blank" rel="noopener">Get directions</a>
+          <a class="btn btn--line" href={links.tel}>Call {site.phoneDisplay}</a>
+        </div>
+      </div>
+      <div class="reveal">
+        <Hours />
+      </div>
+    </div>
+  </section>
+</Base>

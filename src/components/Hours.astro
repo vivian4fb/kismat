@@ -1,0 +1,14 @@
+---
+import { site, formatTime } from '../config';
+---
+<table class="hours">
+  <caption class="skip">Opening hours</caption>
+  <tbody>
+    {site.hours.map((h) => (
+      <tr data-day={h.day}>
+        <th scope="row">{h.day}</th>
+        <td>{h.opens ? `${formatTime(h.opens)} – ${formatTime(h.closes)}` : 'Closed'}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>

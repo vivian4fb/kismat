@@ -1,0 +1,55 @@
+---
+import Base from '../layouts/Base.astro';
+import Hours from '../components/Hours.astro';
+import { site, links, withBase, features } from '../config';
+import { areasCheckedOn } from '../data/areaPages';
+---
+<Base
+  title="Order"
+  titleFull="Order Kerala Food in Leicester | Collection & Delivery | Kismat"
+  description="Order from Kismat, 52 Gateway Street, Leicester. Collection through our own ordering page, or delivery through Just Eat in central Leicester and nearby postcodes."
+>
+  <section class="page-head on-leaf">
+    <div class="wrap">
+      <p class="eyebrow">Order</p>
+      <h1>Collect it, or have it brought to you</h1>
+      <p class="lead">Use our own ordering page if you can come to Gateway Street. If you can’t, Just Eat delivers for us in central Leicester and nearby postcodes.</p>
+    </div>
+  </section>
+  <div class="kasavu" aria-hidden="true"></div>
+
+  <section class="section">
+    <div class="wrap ways" style="margin-top:0">
+      <div class="way reveal">
+        <span class="way-num">collection</span>
+        <h2 style="font-size:2rem">Our ordering page</h2>
+        <p>Choose your dishes and a time, then pick up from 52 Gateway Street.</p>
+        <a class="btn btn--leaf" href={links.order} target="_blank" rel="noopener">Order for collection</a>
+      </div>
+      <div class="way reveal">
+        <span class="way-num">delivery</span>
+        <h2 style="font-size:2rem">Just Eat</h2>
+        <p>Enter your postcode on Just Eat to see if we reach you and what the delivery fee is. We last checked our areas on {areasCheckedOn}.</p>
+        <a class="btn btn--line" href={links.justEat} target="_blank" rel="noopener">Order on Just Eat</a>
+        <a class="textlink" href={withBase('/areas')} style="margin-top:1rem">Delivery areas</a>
+      </div>
+      <div class="way reveal">
+        <span class="way-num">by phone</span>
+        <h2 style="font-size:2rem">Call us</h2>
+        <p>For a large order, a question about a dish or an allergy, speak to us first. {features.catering && 'For events, see catering.'}</p>
+        <a class="btn btn--line" href={links.tel}>Call {site.phoneDisplay}</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tint">
+    <div class="wrap split">
+      <div class="reveal">
+        <p class="eyebrow">When we’re open</p>
+        <h2>Order times</h2>
+        <p class="lead">We’re closed on Tuesdays. Orders on Just Eat depend on Just Eat showing us as open.</p>
+      </div>
+      <div class="reveal"><Hours /></div>
+    </div>
+  </section>
+</Base>

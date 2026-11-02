@@ -1,0 +1,52 @@
+---
+import Base from '../layouts/Base.astro';
+import { glossary, withBase, links } from '../config';
+import { dishPages } from '../data/dishPages';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: glossary.map((g) => ({ '@type': 'Question', name: `What does ${g.term} mean?`, acceptedAnswer: { '@type': 'Answer', text: g.meaning } })),
+};
+---
+<Base
+  title="Kerala food guide"
+  titleFull="Kerala Food Guide: What Is Porotta, Kappa, Appam and Moilee? | Kismat"
+  description="A plain guide to Kerala food: what porotta, appam, kappa, moilee, pothichoru, puttu and mandi are, and what to order first. From Kismat, Gateway Street, Leicester."
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(schema)} />
+  <section class="page-head on-leaf">
+    <div class="wrap">
+      <p class="eyebrow">A guide</p>
+      <h1>Kerala food, in plain words</h1>
+      <p class="lead">Kerala’s menu can look unfamiliar even to people who eat a lot of Indian food. Here’s what the words mean and where to begin.</p>
+    </div>
+  </section>
+  <div class="kasavu" aria-hidden="true"></div>
+
+  <section class="section">
+    <div class="wrap article">
+      <div class="prose">
+        <h2>What to order first</h2>
+        <p>If you want one plate that tells you what Kerala tastes like, have beef roast and porotta. If you don’t eat beef, try fish moilee with palappam, which is mild and built around coconut. If you’d like something familiar with a difference, start with a masala dosa or a Malabari chicken biriyani.</p>
+        <p>Vegetarians should look at the dosa corner, the kappa section and the paneer biriyani. Our <a href={withBase('/menu')}>menu</a> marks vegetarian dishes.</p>
+        <h2>The words on the menu</h2>
+        <dl style="margin:0">
+          {glossary.map((g) => (
+            <div style="padding:.9rem 0;border-top:1px solid var(--rule)">
+              <dt style="font-family:var(--serif);font-size:1.55rem;font-weight:600;line-height:1.2">{g.term}</dt>
+              <dd style="margin:.2rem 0 0" class="muted">{g.meaning}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+      <aside class="aside">
+        <h2>Dish by dish</h2>
+        <ul class="pricelist">
+          {dishPages.map((d) => <li><a href={withBase(`/dishes/${d.slug}`)}>{d.nav}</a></li>)}
+        </ul>
+        <a class="btn btn--leaf" href={links.order} target="_blank" rel="noopener">Order for collection</a>
+      </aside>
+    </div>
+  </section>
+</Base>

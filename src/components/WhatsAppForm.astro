@@ -1,0 +1,56 @@
+---
+// Enquiry form that composes a WhatsApp message. Nothing is stored or sent from this
+// site: the customer's own WhatsApp opens with the message ready to send.
+// With no WhatsApp number configured (the preview), it shows the message instead.
+import { site, links } from '../config';
+
+const { method, intro, fields } = Astro.props as {
+  method: string;
+  intro: string;
+  fields: { name: string; label: string; type?: string; options?: string[]; full?: boolean; required?: boolean }[];
+};
+---
+<form class="form" data-wa-form data-method={method} data-intro={intro} data-number={site.whatsappNumber}>
+  {fields.map((f) => (
+    <div class:list={['field', { 'field--full': f.full }]}>
+      <label for={`${method}-${f.name}`}>{f.label}</label>
+      {f.options ? (
+        <select id={`${method}-${f.name}`} name={f.label} required={f.required}>
+          <option value="">Choose</option>
+          {f.options.map((o) => <option>{o}</option>)}
+        </select>
+      ) : f.type === 'textarea' ? (
+        <textarea id={`${method}-${f.name}`} name={f.label} rows="4" required={f.required}></textarea>
+      ) : (
+        <input id={`${method}-${f.name}`} name={f.label} type={f.type ?? 'text'} required={f.required} autocomplete={f.name === 'name' ? 'name' : f.name === 'phone' ? 'tel' : 'off'} />
+      )}
+    </div>
+  ))}
+  <button type="submit" class="btn btn--leaf">{site.whatsappNumber ? 'Send on WhatsApp' : 'Prepare my message'}</button>
+</form>
+<div class="notice composed" data-composed hidden aria-live="polite"></div>
+<p class="small muted" style="margin-top:14px">Nothing is saved on this website. Prefer to talk? Call <a href={links.tel}>{site.phoneDisplay}</a>.</p>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('[data-wa-form]').forEach((form) => {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const { method, intro, number } = form.dataset;
+      const lines = [intro ?? ''];
+      new FormData(form).forEach((value, key) => {
+        if (String(value).trim()) lines.push(`${key}: ${String(value).trim()}`);
+      });
+      const text = lines.join('\n');
+      (window as any).gtag?.('event', 'generate_lead', { method, page_path: location.pathname });
+      if (number) {
+        window.open(`https://wa.me/${number}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+        return;
+      }
+      const out = form.parentElement?.querySelector<HTMLElement>('[data-composed]');
+      if (out) {
+        out.hidden = false;
+        out.textContent = `Preview only, nothing has been sent. Once Kismat confirms its WhatsApp number, this message opens in WhatsApp, ready to send:\n\n${text}`;
+      }
+    });
+  });
+</script>

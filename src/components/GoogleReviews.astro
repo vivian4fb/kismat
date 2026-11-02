@@ -1,0 +1,78 @@
+---
+import { site } from '../config';
+
+/**
+ * Fetches REAL Google reviews at build time via the Places API (New).
+ * The key comes from the GOOGLE_PLACES_API_KEY env var and stays out of the browser.
+ * With no key, or if the listing can't be matched to our postcode, this renders
+ * nothing. There is no fallback list: this section never shows a review that didn't
+ * come straight from Google.
+ */
+const apiKey = import.meta.env.GOOGLE_PLACES_API_KEY;
+const placeId = (site.googlePlaceId || '').trim();
+
+let rating = 0;
+let total = 0;
+let reviews: { name: string; rating: number; when: string; text: string }[] = [];
+let mapsUrl = '';
+
+if (apiKey) {
+  try {
+    let place: any = null;
+    if (placeId) {
+      const res = await fetch(`https://places.googleapis.com/v1/places/${placeId}`, {
+        headers: { 'X-Goog-Api-Key': apiKey, 'X-Goog-FieldMask': 'formattedAddress,rating,userRatingCount,reviews,googleMapsUri' },
+      });
+      if (res.ok) place = await res.json();
+      else console.warn('[GoogleReviews] place lookup returned', res.status);
+    } else {
+      const res = await fetch('https://places.googleapis.com/v1/places:searchText', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Goog-Api-Key': apiKey,
+          'X-Goog-FieldMask': 'places.formattedAddress,places.rating,places.userRatingCount,places.reviews,places.googleMapsUri',
+        },
+        body: JSON.stringify({ textQuery: site.googlePlaceQuery, maxResultCount: 1 }),
+      });
+      if (res.ok) place = (await res.json()).places?.[0] ?? null;
+      else console.warn('[GoogleReviews] searchText returned', res.status);
+    }
+    // There's more than one Kismat. Only accept the listing at our postcode.
+    if (place && String(place.formattedAddress).includes(site.address.postcode)) {
+      rating = place.rating ?? 0;
+      total = place.userRatingCount ?? 0;
+      mapsUrl = place.googleMapsUri ?? '';
+      reviews = (place.reviews ?? [])
+        .map((r: any) => ({
+          name: r.authorAttribution?.displayName ?? 'Google user',
+          rating: r.rating ?? 0,
+          when: r.relativePublishTimeDescription ?? '',
+          text: r.text?.text ?? '',
+        }))
+        .filter((r: { text: string }) => r.text);
+    } else if (place) {
+      console.warn('[GoogleReviews] ignored a listing at another address:', place.formattedAddress);
+    }
+  } catch (e: any) {
+    console.warn('[GoogleReviews] fetch failed:', e?.message);
+  }
+}
+---
+{reviews.length > 0 && (
+  <section class="section section--tint">
+    <div class="wrap">
+      <p class="eyebrow reveal">Reviews on Google</p>
+      <h2 class="reveal">{rating.toFixed(1)} from {total} reviews</h2>
+      <div class="reviews">
+        {reviews.slice(0, 3).map((r) => (
+          <figure class="review reveal" style="margin:0">
+            <blockquote>{r.text.length > 240 ? `${r.text.slice(0, 240).trim()}…` : r.text}</blockquote>
+            <footer>{r.name}, {r.when}. Posted on Google.</footer>
+          </figure>
+        ))}
+      </div>
+      {mapsUrl && <p style="margin-top:2rem"><a class="textlink" href={mapsUrl} target="_blank" rel="noopener">See all reviews on Google</a></p>}
+    </div>
+  </section>
+)}

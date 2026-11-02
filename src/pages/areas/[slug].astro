@@ -1,0 +1,89 @@
+---
+import Base from '../../layouts/Base.astro';
+import Sprig from '../../components/Sprig.astro';
+import { areaPages, areasCheckedOn } from '../../data/areaPages';
+import { dishPages } from '../../data/dishPages';
+import { links, withBase, dish, gbp, businessSchemaId, site } from '../../config';
+
+export function getStaticPaths() {
+  return areaPages.map((area) => ({ params: { slug: area.slug }, props: { area } }));
+}
+const { area } = Astro.props as { area: (typeof areaPages)[number] };
+const popular = area.popular.map((p) => ({ ...p, ...dish(p.name) }));
+const idx = areaPages.findIndex((a) => a.slug === area.slug);
+const nearby = [1, 2, 3].map((i) => areaPages[(idx + i) % areaPages.length]);
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  serviceType: 'Food delivery and collection',
+  name: `Kerala food in ${area.short}, Leicester`,
+  provider: { '@id': businessSchemaId(Astro.site) },
+  areaServed: { '@type': 'Place', name: `${area.short}, ${site.address.city}` },
+};
+---
+<Base
+  title={area.short}
+  titleFull={area.metaTitle}
+  description={area.metaDescription}
+  breadcrumbs={[{ name: 'Home', path: '/' }, { name: 'Delivery areas', path: '/areas' }, { name: area.short, path: `/areas/${area.slug}` }]}
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(schema)} />
+  <section class="page-head on-leaf">
+    <Sprig class="page-sprig" />
+    <div class="wrap">
+      <ol class="crumbs">
+        <li><a href={withBase('/')}>Home</a></li>
+        <li><a href={withBase('/areas')}>Delivery areas</a></li>
+        <li aria-current="page">{area.short}</li>
+      </ol>
+      <h1>{area.h1}</h1>
+      <p class="lead">{area.intro}</p>
+      <div class="btn-row" style="margin-top:1.8rem">
+        <a class="btn btn--gold" href={links.order} target="_blank" rel="noopener">Order for collection</a>
+        <a class="btn btn--line" href={links.justEat} target="_blank" rel="noopener">Order on Just Eat</a>
+      </div>
+    </div>
+  </section>
+  <div class="kasavu" aria-hidden="true"></div>
+
+  <section class="section">
+    <div class="wrap article">
+      <div>
+        <p class="eyebrow">Worth ordering</p>
+        <h2 style="font-size:clamp(1.9rem,3vw,2.5rem);margin-bottom:1.2rem">Three to try from {area.short}</h2>
+        <ul class="typelist">
+          {popular.map((p) => (
+            <li style="padding:.95rem 0">
+              <div style="display:flex;justify-content:space-between;gap:16px;align-items:baseline">
+                <span class="tl-name">{p.name}</span>
+                <span class="tl-price">{gbp(p.price)}</span>
+              </div>
+              <p class="muted" style="margin:.2rem 0 0">{p.why}</p>
+            </li>
+          ))}
+        </ul>
+        <p style="margin-top:1.6rem"><a class="textlink" href={withBase('/menu')}>The full menu</a></p>
+      </div>
+      <aside class="aside">
+        <h2>Getting it to you</h2>
+        <p class="small">Just Eat listed us for delivery at the {area.postcode} postcode we checked on {areasCheckedOn}, about {area.miles.toFixed(1)} miles from our kitchen.</p>
+        <p class="small">Enter your own postcode on Just Eat to confirm it and see the fee. To collect, use our ordering page.</p>
+        <p class="small muted">{site.address.street}, {site.address.postcode}<br /><a href={links.maps} target="_blank" rel="noopener">Get directions</a></p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section section--tint" style="padding-block:clamp(48px,6vw,80px)">
+    <div class="wrap">
+      <h2 style="font-size:1.9rem;margin-bottom:1rem">Nearby</h2>
+      <div class="chips">
+        {nearby.map((a) => <a class="chip" href={withBase(`/areas/${a.slug}`)}>{a.short}</a>)}
+      </div>
+      <h2 style="font-size:1.9rem;margin:2rem 0 1rem">Kerala dishes</h2>
+      <div class="chips">
+        {dishPages.map((d) => <a class="chip" href={withBase(`/dishes/${d.slug}`)}>{d.nav}</a>)}
+      </div>
+    </div>
+  </section>
+</Base>

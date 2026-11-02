@@ -1,0 +1,8 @@
+---
+import { links, withBase } from '../config';
+---
+<nav class="dock" aria-label="Quick actions">
+  <a href={withBase('/order')}>Order</a>
+  <a href={links.tel}>Call</a>
+  <a href={links.maps} target="_blank" rel="noopener">Directions</a>
+</nav>

@@ -1,0 +1,602 @@
+{
+  "asOf": "2026-11-02",
+  "sections": [
+    {
+      "label": "Starters",
+      "items": [
+        {
+          "name": "Pappadom with Mango Chutney",
+          "price": 3.99,
+          "veg": true,
+          "desc": ""
+        },
+        {
+          "name": "Samosa Chat",
+          "price": 5.99,
+          "veg": true,
+          "desc": ""
+        },
+        {
+          "name": "Fried Okra",
+          "price": 5.99,
+          "veg": true,
+          "desc": ""
+        },
+        {
+          "name": "Kanthari Grilled Paneer",
+          "price": 7.99,
+          "veg": true,
+          "desc": ""
+        },
+        {
+          "name": "Kerala Fried Cauliflower",
+          "price": 7.99,
+          "veg": true,
+          "desc": ""
+        },
+        {
+          "name": "Soup of The Day",
+          "price": 5.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Beef Cutlets",
+          "price": 4.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Fish Cutlets",
+          "price": 4.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Chicken 65",
+          "price": 7.5,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Chicken Lollipop",
+          "price": 7.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Beer Battered Calamari",
+          "price": 7.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Beef Dry Fry",
+          "price": 8.49,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Kanthari Pan-Grilled Prawns",
+          "price": 9.49,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Kerala Style Squid Roast",
+          "price": 6.99,
+          "veg": false,
+          "desc": ""
+        }
+      ]
+    },
+    {
+      "label": "Fish Fry",
+      "items": [
+        {
+          "name": "Ayala Fry",
+          "price": 8.49,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Mathi Fry",
+          "price": 4.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Killimeen Fry (2 pcs)",
+          "price": 11.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Karimeen Fry",
+          "price": 7.99,
+          "veg": false,
+          "desc": ""
+        }
+      ]
+    },
+    {
+      "label": "Meat & Fish Curries",
+      "items": [
+        {
+          "name": "Nadan Chicken Curry",
+          "price": 9.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Alleppey Chicken Curry",
+          "price": 10.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Butter Chicken",
+          "price": 10.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Chilly Chicken",
+          "price": 10.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Chicken Stew",
+          "price": 10.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Green Chicken",
+          "price": 10.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Mutton Chaps",
+          "price": 12.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Mutton Stew",
+          "price": 12.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Nasrani Beef Curry",
+          "price": 12.49,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Achayan Beef Roast",
+          "price": 12.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Beef Coconut Fry",
+          "price": 12.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Fish Mango Curry",
+          "price": 12.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Fish Moilee",
+          "price": 12.49,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Prawns Mango Curry",
+          "price": 13.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Shappu Fish Curry",
+          "price": 11.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "King Fish Tawa Fry",
+          "price": 9.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Whole Fish Tawa Fry",
+          "price": 18.99,
+          "veg": false,
+          "desc": ""
+        }
+      ]
+    },
+    {
+      "label": "Vegetarian Curries",
+      "items": [
+        {
+          "name": "Dal Tadka",
+          "price": 6.99,
+          "veg": true,
+          "desc": ""
+        },
+        {
+          "name": "Veg Korma",
+          "price": 8.99,
+          "veg": true,
+          "desc": ""
+        },
+        {
+          "name": "Paneer Butter Masala",
+          "price": 9.99,
+          "veg": true,
+          "desc": ""
+        },
+        {
+          "name": "Chilly Mushroom",
+          "price": 9.99,
+          "veg": true,
+          "desc": ""
+        }
+      ]
+    },
+    {
+      "label": "Biriyani",
+      "items": [
+        {
+          "name": "Malabari Chicken Dum Biriyani",
+          "price": 9.45,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Veg Biriyani",
+          "price": 8.49,
+          "veg": true,
+          "desc": ""
+        },
+        {
+          "name": "Paneer Biriyani",
+          "price": 8.99,
+          "veg": true,
+          "desc": ""
+        },
+        {
+          "name": "Mutton Biriyani",
+          "price": 10.49,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Beef Biriyani",
+          "price": 11.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Prawns Biriyani",
+          "price": 12.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Fish Biriyani",
+          "price": 12.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Pothi Biriyani",
+          "price": 14.99,
+          "veg": false,
+          "desc": ""
+        }
+      ]
+    },
+    {
+      "label": "Mandi",
+      "items": [
+        {
+          "name": "Chicken Mandi (Full)",
+          "price": 18.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Chicken Mandi (Half)",
+          "price": 10.49,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Irani Mandi (Half)",
+          "price": 11.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Irani Mandi (Full)",
+          "price": 19.99,
+          "veg": false,
+          "desc": ""
+        }
+      ]
+    },
+    {
+      "label": "Kappa",
+      "items": [
+        {
+          "name": "Pal Kappa",
+          "price": 7.99,
+          "veg": true,
+          "desc": ""
+        },
+        {
+          "name": "Kappa Vevichath",
+          "price": 6.99,
+          "veg": true,
+          "desc": ""
+        },
+        {
+          "name": "Kappa Biriyani",
+          "price": 9.99,
+          "veg": false,
+          "desc": ""
+        }
+      ]
+    },
+    {
+      "label": "Specials",
+      "items": [
+        {
+          "name": "Chicken Kothu Porotta",
+          "price": 11.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Mutton Kothu Porotta",
+          "price": 12.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Mutton Kizhi Porotta",
+          "price": 12.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Special Pothichoru",
+          "price": 14.99,
+          "veg": false,
+          "desc": ""
+        }
+      ]
+    },
+    {
+      "label": "Dosa Corner",
+      "items": [
+        {
+          "name": "Thattu Dosa",
+          "price": 6.99,
+          "veg": true,
+          "desc": ""
+        },
+        {
+          "name": "Ghee Roast",
+          "price": 5.49,
+          "veg": true,
+          "desc": ""
+        },
+        {
+          "name": "Thanjavur Podi Dosa",
+          "price": 7.49,
+          "veg": true,
+          "desc": ""
+        },
+        {
+          "name": "Masala Dosa",
+          "price": 7.99,
+          "veg": true,
+          "desc": ""
+        },
+        {
+          "name": "Egg Dosa",
+          "price": 5.49,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Chicken Dosa",
+          "price": 9.45,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Mutton Dosa",
+          "price": 11.99,
+          "veg": false,
+          "desc": ""
+        }
+      ]
+    },
+    {
+      "label": "Breads & Appam",
+      "items": [
+        {
+          "name": "Chappathi (2pcs)",
+          "price": 2.49,
+          "veg": true,
+          "desc": ""
+        },
+        {
+          "name": "Palappam (2pcs)",
+          "price": 2.99,
+          "veg": true,
+          "desc": ""
+        },
+        {
+          "name": "Kallappam (2pcs)",
+          "price": 2.99,
+          "veg": true,
+          "desc": ""
+        },
+        {
+          "name": "Porotta (1pc)",
+          "price": 1.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Pathiri (5pcs)",
+          "price": 3.49,
+          "veg": true,
+          "desc": ""
+        },
+        {
+          "name": "Puttu",
+          "price": 5.99,
+          "veg": true,
+          "desc": ""
+        }
+      ]
+    },
+    {
+      "label": "Rice",
+      "items": [
+        {
+          "name": "Plain Matta Rice",
+          "price": 4.99,
+          "veg": true,
+          "desc": ""
+        },
+        {
+          "name": "Plain Basmati Rice",
+          "price": 4.99,
+          "veg": true,
+          "desc": ""
+        },
+        {
+          "name": "Ghee Rice",
+          "price": 5.49,
+          "veg": true,
+          "desc": ""
+        }
+      ]
+    },
+    {
+      "label": "Chinese Corner",
+      "items": [
+        {
+          "name": "Kismat Special Veg Noodles",
+          "price": 6.99,
+          "veg": true,
+          "desc": ""
+        },
+        {
+          "name": "Hot & Spicy Chicken Noodles",
+          "price": 9.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Kismat Special Mixed Noodles",
+          "price": 10.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Veg Fried Rice",
+          "price": 4.99,
+          "veg": true,
+          "desc": ""
+        },
+        {
+          "name": "Chicken Fried Rice",
+          "price": 8.49,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Mixed Fried Rice",
+          "price": 9.99,
+          "veg": false,
+          "desc": ""
+        }
+      ]
+    },
+    {
+      "label": "Kids",
+      "items": [
+        {
+          "name": "Chicken Nuggets & Fries",
+          "price": 5.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Chicken Strips",
+          "price": 4.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Mac & cheese",
+          "price": 4.99,
+          "veg": false,
+          "desc": ""
+        }
+      ]
+    },
+    {
+      "label": "Desserts",
+      "items": [
+        {
+          "name": "Adapradaman + Pazham + Pappadom",
+          "price": 6.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Fruit Salad with Ice Cream",
+          "price": 6.99,
+          "veg": false,
+          "desc": ""
+        },
+        {
+          "name": "Knafeh",
+          "price": 7.99,
+          "veg": false,
+          "desc": ""
+        }
+      ]
+    },
+    {
+      "label": "Drinks",
+      "items": [
+        {
+          "name": "Pepsi (1.5 litre)",
+          "price": 2.99,
+          "veg": false,
+          "desc": ""
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+---
+import Base from '../../layouts/Base.astro';
+import { withBase } from '../../config';
+import { dishPages } from '../../data/dishPages';
+---
+<Base title="Kerala dishes" titleFull="Kerala Dishes in Leicester | Kismat" description="Porotta and beef roast, kappa biriyani, Malabar dum biriyani, mandi, dosa and Kerala fish curry: what each dish is and where to try it in Leicester.">
+  <section class="page-head on-leaf">
+    <div class="wrap">
+      <p class="eyebrow">Dish by dish</p>
+      <h1>Kerala dishes at Kismat</h1>
+      <p class="lead">What each one is, how it’s traditionally made, and what we have on the menu.</p>
+    </div>
+  </section>
+  <div class="kasavu" aria-hidden="true"></div>
+  <section class="section">
+    <div class="wrap--narrow">
+      <ul class="typelist reveal">
+        {dishPages.map((d) => (
+          <li><a href={withBase(`/dishes/${d.slug}`)}><span class="tl-name">{d.nav}</span></a></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,27 @@
+---
+// Short link to send customers after an order: /review
+// Sends them straight to the Google review form for the Business Profile. Everyone
+// gets the same link: asking only happy customers breaks Google's policy.
+// Not built until site.googleWriteReviewUrl is set in src/config.ts.
+import { site } from '../config';
+
+export function getStaticPaths() {
+  return site.googleWriteReviewUrl ? [{ params: { review: 'review' } }] : [];
+}
+const url = site.googleWriteReviewUrl;
+---
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <meta http-equiv="refresh" content={`0; url=${url}`} />
+    <title>Leave us a review | {site.googleBusinessName}</title>
+    <script is:inline define:vars={{ url }}>window.location.replace(url);</script>
+  </head>
+  <body style="font-family: system-ui, sans-serif; padding: 2rem; text-align: center;">
+    <h1 style="font-size:1.2rem">Taking you to our Google review page...</h1>
+    <p><a href={url}>Tap here if it doesn’t open</a></p>
+  </body>
+</html>

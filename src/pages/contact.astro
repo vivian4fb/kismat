@@ -1,0 +1,41 @@
+---
+import Base from '../layouts/Base.astro';
+import Hours from '../components/Hours.astro';
+import { site, links, withBase, features } from '../config';
+---
+<Base
+  title="Visit"
+  titleFull="Contact & Directions | Kismat, 52 Gateway Street, Leicester"
+  description="Find Kismat at 52 Gateway Street, Leicester LE2 7DP. Open Monday, Wednesday and Thursday 1pm to 10pm, Friday to Sunday 1pm to 11pm, closed Tuesdays. Call 07577 602743."
+>
+  <section class="page-head on-leaf">
+    <div class="wrap">
+      <p class="eyebrow">Visit</p>
+      <h1>52 Gateway Street, Leicester</h1>
+      <p class="lead">On the edge of the De Montfort University campus, close to the Newarke.</p>
+      <p class="status" data-open-status>Open from 1pm, closed Tuesdays</p>
+    </div>
+  </section>
+  <div class="kasavu" aria-hidden="true"></div>
+
+  <section class="section">
+    <div class="wrap visit">
+      <div class="reveal">
+        <p class="eyebrow">Find us</p>
+        <address class="visit-address">52 Gateway Street,<br />Leicester LE2 7DP</address>
+        <div class="btn-row">
+          <a class="btn btn--leaf" href={links.maps} target="_blank" rel="noopener">Get directions</a>
+          <a class="btn btn--line" href={links.tel}>Call {site.phoneDisplay}</a>
+          {links.whatsapp && <a class="btn btn--line" href={links.whatsapp} target="_blank" rel="noopener">WhatsApp</a>}
+        </div>
+        <h2 style="font-size:1.9rem;margin-top:3rem">Coming with a group?</h2>
+        <p style="margin-top:.7rem" class="muted">Online booking isn’t available at the moment. Call us and we’ll do our best to fit you in.{features.catering && ' For an event of your own, see '}{features.catering && <a href={withBase('/catering')}>catering</a>}{features.catering && '.'}</p>
+        {links.email && <p><a href={links.email}>{site.email}</a></p>}
+      </div>
+      <div class="reveal">
+        <p class="eyebrow">Opening hours</p>
+        <Hours />
+      </div>
+    </div>
+  </section>
+</Base>

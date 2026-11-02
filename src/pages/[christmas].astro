@@ -1,0 +1,54 @@
+---
+// Built only while features.christmas is on. See [catering].astro for why it's a route parameter.
+import Base from '../layouts/Base.astro';
+import Proposed from '../components/Proposed.astro';
+import WhatsAppForm from '../components/WhatsAppForm.astro';
+import { features, dish } from '../config';
+
+export function getStaticPaths() {
+  return features.christmas ? [{ params: { christmas: 'christmas' } }] : [];
+}
+
+const trays = ['Palappam (2pcs)', 'Chicken Stew', 'Mutton Stew', 'Achayan Beef Roast', 'Fish Moilee', 'Adapradaman + Pazham + Pappadom'].map(dish);
+---
+<Base
+  title="Christmas"
+  titleFull="Kerala Christmas Food in Leicester | Pre-order at Kismat"
+  description="Kerala Christmas food in Leicester from Kismat: appam, stew and beef roast trays for 24 and 25 December, ordered in advance."
+>
+  <section class="page-head on-leaf">
+    <div class="wrap">
+      <Proposed />
+      <p class="eyebrow">Christmas</p>
+      <h1>A Kerala Christmas table in Leicester</h1>
+      <p class="lead">In Kerala’s Christian homes, Christmas morning often means appam and stew, with beef roast later. Order yours in advance for 24 or 25 December and collect it from Gateway Street.</p>
+    </div>
+  </section>
+  <div class="kasavu" aria-hidden="true"></div>
+
+  <section class="section">
+    <div class="wrap article">
+      <div>
+        <h2 style="font-size:clamp(1.9rem,3vw,2.5rem);margin-bottom:1.3rem">Ask for a place on the list</h2>
+        <WhatsAppForm
+          method="christmas_form"
+          intro="Hello Kismat, I'd like to pre-order for Christmas."
+          fields={[
+            { name: 'name', label: 'Your name', required: true },
+            { name: 'phone', label: 'Phone', type: 'tel', required: true },
+            { name: 'day', label: 'Collection day', options: ['24 December', '25 December'], required: true },
+            { name: 'people', label: 'How many people?', options: ['2 to 4', '5 to 8', '9 to 15', 'More than 15'], required: true },
+            { name: 'notes', label: 'Dishes you’d like, dietary needs and allergies', type: 'textarea', full: true },
+          ]}
+        />
+      </div>
+      <aside class="aside">
+        <h2>The Christmas table</h2>
+        <ul class="pricelist">
+          {trays.map((d) => <li><span>{d.name}</span></li>)}
+        </ul>
+        <p class="small muted" style="margin-top:1rem">Tray sizes, prices and the last order date are still to be confirmed.</p>
+      </aside>
+    </div>
+  </section>
+</Base>

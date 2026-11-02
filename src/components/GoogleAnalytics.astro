@@ -1,0 +1,104 @@
+---
+/**
+ * Google Analytics 4 (gtag.js). Loads ONLY when a real measurement ID is set AND
+ * the visitor has accepted analytics cookies.
+ *
+ * Set your ID either way (the env var wins if both are set):
+ *   1. Env var:  PUBLIC_GA_ID=G-XXXXXXXXXX in .env, or as a repo secret (recommended)
+ *   2. Config:   site.googleAnalyticsId in src/config.ts
+ *
+ * A GA4 measurement ID is NOT a secret, it has to reach the browser, so the
+ * PUBLIC_ prefix is correct.
+ *
+ * When no real ID is set (empty, or the placeholder), this renders nothing: no
+ * cookie banner and zero extra requests.
+ */
+import { site, withBase } from '../config';
+
+const gaId = (import.meta.env.PUBLIC_GA_ID || site.googleAnalyticsId || '').trim();
+
+// A real GA4 ID looks like "G-XXXXXXXXXX". Treat the literal placeholder (and
+// anything not starting with "G-") as "not configured yet".
+const enabled = gaId.startsWith('G-') && gaId !== 'G-XXXXXXXXXX';
+const privacyUrl = withBase('/privacy');
+---
+{enabled && (
+  <>
+    <script is:inline define:vars={{ gaId }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      // define:vars wraps this script in a function, so gtag isn't global by
+      // default. Expose it for page scripts (e.g. the catering form).
+      window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', gaId);
+
+      var KEY = 'kismat-analytics';
+      function stored() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+      function store(v) { try { localStorage.setItem(KEY, v); } catch (e) {} }
+
+      // Nothing leaves the browser until the visitor accepts. Calls made before
+      // then wait in dataLayer and are sent when gtag.js arrives.
+      var loaded = false;
+      function load() {
+        if (loaded) return;
+        loaded = true;
+        // Speed: fetch gtag.js (~176 KB) only once the page has loaded, so it
+        // doesn't compete with the hero image and fonts on slow mobile data.
+        var go = function () {
+          var s = document.createElement('script');
+          s.async = true;
+          s.src = 'https://www.googletagmanager.com/gtag/js?id=' + gaId;
+          document.head.appendChild(s);
+        };
+        if (document.readyState === 'complete') go();
+        else window.addEventListener('load', go);
+      }
+      if (stored() === 'yes') load();
+
+      document.addEventListener('DOMContentLoaded', function () {
+        var box = document.getElementById('consent');
+        if (!box) return;
+        if (!stored()) box.hidden = false;
+        document.getElementById('consent-yes').addEventListener('click', function () { store('yes'); box.hidden = true; load(); });
+        document.getElementById('consent-no').addEventListener('click', function () { store('no'); box.hidden = true; if (loaded) location.reload(); });
+        document.querySelectorAll('[data-cookie-settings]').forEach(function (b) {
+          b.hidden = false;
+          b.addEventListener('click', function () { box.hidden = false; });
+        });
+      });
+
+      // Order and enquiry tracking: every tap on an order link, Just Eat, WhatsApp,
+      // call, email or directions is sent to Analytics as a 'generate_lead' event with
+      // the method used and the page it happened on. Mark generate_lead as a key event
+      // in GA4 (Admin > Events) and add an event-scoped custom dimension for `method`
+      // to see orders and enquiries per page, area and traffic source.
+      document.addEventListener('click', function (e) {
+        var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+        if (!a) return;
+        var href = a.getAttribute('href') || '';
+        var method = '';
+        if (href.indexOf('tel:') === 0) method = 'call';
+        else if (href.indexOf('mailto:') === 0) method = 'email';
+        else if (/wa\.me|whatsapp\.com/.test(href)) method = 'whatsapp';
+        else if (/order\.kismatleicester\.co\.uk/.test(href)) method = 'order_collection';
+        else if (/just-eat\.co\.uk/.test(href)) method = 'order_just_eat';
+        else if (/google\.[^/]+\/maps/.test(href)) method = 'directions';
+        if (!method) return;
+        gtag('event', 'generate_lead', {
+          method: method,
+          link_text: (a.getAttribute('aria-label') || a.textContent || '').trim().slice(0, 100),
+          page_path: location.pathname,
+          transport_type: 'beacon'
+        });
+      }, true);
+    </script>
+    <div id="consent" class="consent" role="dialog" aria-label="Cookie choice" hidden>
+      May we use Google Analytics cookies to see how people use this site? It helps us improve it. <a href={privacyUrl}>Privacy</a>.
+      <div class="btn-row">
+        <button id="consent-yes" type="button" class="btn btn--leaf">Accept</button>
+        <button id="consent-no" type="button" class="btn btn--line">No thanks</button>
+      </div>
+    </div>
+  </>
+)}

@@ -1,0 +1,63 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import { site, withBase, responsive, menuStats, addressLine } from '../config';
+import meal from '../images/kerala-meal.jpg';
+import fish from '../images/fish-fry.jpg';
+---
+<Base
+  title="About"
+  titleFull="About Kismat | Kerala Food on Gateway Street, Leicester"
+  description="Kismat is a Kerala restaurant and takeaway on Gateway Street, Leicester. How Christian, Muslim and Hindu cooking traditions and centuries of trade shaped what's on our menu."
+>
+  <section class="page-head on-leaf">
+    <div class="wrap">
+      <p class="eyebrow">About</p>
+      <h1>Kerala food on Gateway Street</h1>
+      <p class="lead">Kismat means fate, a word that travelled from Arabic into Urdu and Hindi. Ours is a Kerala restaurant and takeaway on the edge of the De Montfort University campus.</p>
+    </div>
+  </section>
+  <div class="kasavu" aria-hidden="true"></div>
+
+  {site.story.people && (
+    <section class="section">
+      <div class="wrap--narrow reveal">
+        <p class="eyebrow">Who we are</p>
+        <p class="lead">{site.story.people}</p>
+      </div>
+    </section>
+  )}
+
+  <section class="section">
+    <div class="wrap split">
+      <div class="reveal">
+        <p class="eyebrow">One state, several kitchens</p>
+        <h2>Why “Indian” doesn’t quite cover it</h2>
+        <p class="lead">Kerala is a narrow strip of coast in India’s far south-west, with its own language, Malayalam, and its own way of cooking.</p>
+        <p>Its food grew out of several traditions living side by side. Kerala’s Christians are known for beef roast, stews and appam. The Muslim cooks of the Malabar coast gave it dum biriyani and thin rice pathiri. The Hindu vegetarian table runs on rice, coconut and curd.</p>
+        <p>Then there’s the sea. Traders came for pepper and cardamom for centuries, and generations of Keralites have since gone to work in the Gulf. That’s why our menu has mandi on it, alongside the fish curries and dosa.</p>
+      </div>
+      <div class="arch arch--light reveal">
+        <Image src={meal} alt="A Kerala meal: rice on banana leaf with small bowls of curry, pickle and vegetables, with pappadom" {...responsive.card} style="aspect-ratio:1/1.05" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tint">
+    <div class="wrap split split--flip">
+      <div class="reveal">
+        <Image src={fish} alt="Spiced fried fish fillets on a speckled plate with sliced red onion, lemon and a small dish of green sauce" {...responsive.card} style="aspect-ratio:1/1" />
+      </div>
+      <div class="reveal">
+        <p class="eyebrow">What we serve</p>
+        <h2>{menuStats.dishes} dishes in {menuStats.sections} sections</h2>
+        <p class="lead">{menuStats.vegetarian} are marked vegetarian. There’s a dosa corner, a Chinese corner and a kids’ menu.</p>
+        <div class="btn-row">
+          <a class="btn btn--leaf" href={withBase('/menu')}>See the menu</a>
+          <a class="btn btn--line" href={withBase('/contact')}>Visit us</a>
+        </div>
+        <p class="small muted" style="margin-top:1.4rem">{addressLine}</p>
+      </div>
+    </div>
+  </section>
+</Base>

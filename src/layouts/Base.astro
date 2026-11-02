@@ -1,0 +1,217 @@
+---
+import { getImage } from 'astro:assets';
+import '@fontsource-variable/cormorant/wght.css';
+import '@fontsource-variable/cormorant/wght-italic.css';
+import '@fontsource-variable/figtree/wght.css';
+// Same files the @font-face rules above resolve to (Vite emits them once), so the
+// preloads below start the downloads early without fetching them twice.
+import cormorantUrl from '@fontsource-variable/cormorant/files/cormorant-latin-wght-normal.woff2?url';
+import figtreeUrl from '@fontsource-variable/figtree/files/figtree-latin-wght-normal.woff2?url';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Dock from '../components/Dock.astro';
+import GoogleAnalytics from '../components/GoogleAnalytics.astro';
+import { site, links, withBase, businessSchemaId, addressLine, PREVIEW } from '../config';
+import ogDefault from '../images/prawns-banana-leaf.jpg';
+
+interface Props {
+  title?: string;
+  titleFull?: string;
+  description?: string;
+  image?: ImageMetadata;
+  // Override the auto-generated breadcrumb trail, e.g. Home > Dishes > Mandi.
+  // Each `path` is site-root-relative ('/dishes/mandi').
+  breadcrumbs?: { name: string; path: string }[];
+  noindex?: boolean;
+}
+const { title, titleFull, description, image, breadcrumbs, noindex } = Astro.props as Props;
+const pageTitle = titleFull ?? (title ? `${title} | ${site.businessName}` : `${site.businessName} | ${site.tagline}`);
+const pageDescription = description ?? `${site.tagline}. Porotta and beef roast, kappa biriyani, Malabar dum biriyani, dosa and mandi at ${addressLine}.`;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const optimizedOgImage = await getImage({ src: image ?? ogDefault, width: 1200, format: 'jpg' });
+const ogImage = new URL(optimizedOgImage.src, Astro.site);
+const home = String(new URL(withBase('/'), Astro.site));
+const isHome = Astro.url.pathname === withBase('/');
+const businessId = businessSchemaId(Astro.site);
+const verification = (import.meta.env.PUBLIC_GSC_VERIFICATION || site.googleSiteVerification || '').trim();
+
+// Breadcrumb structured data. Skipped on the homepage. Every other page defaults
+// to Home > <title>; pages needing a deeper trail pass `breadcrumbs` explicitly.
+const crumbs = isHome ? null : (breadcrumbs ?? [{ name: 'Home', path: '/' }, { name: title ?? pageTitle, path: Astro.url.pathname.replace(withBase('/'), '/') }]);
+const breadcrumbList = crumbs && {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: crumbs.map((c, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: c.name,
+    item: String(new URL(withBase(c.path), Astro.site)),
+  })),
+};
+
+// Restaurant structured data. Real profiles only. No aggregateRating: Google doesn't
+// show self-served review stars for a business on its own site.
+const sameAs = [links.instagram, links.facebook].filter(Boolean);
+const dayGroups = new Map<string, string[]>();
+for (const h of site.hours) {
+  if (!h.opens) continue;
+  const key = `${h.opens}-${h.closes}`;
+  dayGroups.set(key, [...(dayGroups.get(key) ?? []), h.day]);
+}
+const restaurant = {
+  '@context': 'https://schema.org',
+  '@type': 'Restaurant',
+  additionalType: 'https://en.wikipedia.org/wiki/Cuisine_of_Kerala',
+  '@id': businessId,
+  name: site.googleBusinessName,
+  description: pageDescription,
+  image: String(ogImage),
+  url: home,
+  telephone: site.phoneIntl,
+  ...(site.email ? { email: site.email } : {}),
+  priceRange: '££',
+  currenciesAccepted: 'GBP',
+  servesCuisine: ['Kerala', 'South Indian', 'Indian', 'Arabian'],
+  hasMenu: String(new URL(withBase('/menu'), Astro.site)),
+  acceptsReservations: false,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.address.street,
+    addressLocality: site.address.city,
+    postalCode: site.address.postcode,
+    addressRegion: site.address.region,
+    addressCountry: site.address.country,
+  },
+  geo: { '@type': 'GeoCoordinates', ...site.geo },
+  hasMap: site.mapsUrl,
+  openingHoursSpecification: [...dayGroups.entries()].map(([key, days]) => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: days,
+    opens: key.split('-')[0],
+    closes: key.split('-')[1],
+  })),
+  potentialAction: {
+    '@type': 'OrderAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: site.orderUrl,
+      actionPlatform: ['https://schema.org/DesktopWebPlatform', 'https://schema.org/MobileWebPlatform'],
+    },
+    deliveryMethod: 'http://purl.org/goodrelations/v1#DeliveryModePickUp',
+  },
+  ...(sameAs.length ? { sameAs } : {}),
+};
+
+// WebSite entity (homepage only): helps Google show the business name above results.
+const webSite = isHome && {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: site.googleBusinessName,
+  url: home,
+  publisher: { '@id': businessId },
+};
+const hoursData = site.hours;
+---
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#143226" />
+    <script is:inline>document.documentElement.classList.add('js');</script>
+
+    <!-- Speed: fetch the two fonts early, plus any page-specific preloads passed in via slot="head". -->
+    <link rel="preload" href={cormorantUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={figtreeUrl} as="font" type="font/woff2" crossorigin />
+    <slot name="head" />
+
+    <!-- Google Analytics (renders only when a measurement ID is configured) -->
+    <GoogleAnalytics />
+
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <link rel="canonical" href={canonicalURL} />
+    {(PREVIEW || noindex) && <meta name="robots" content="noindex, nofollow" />}
+    {verification && <meta name="google-site-verification" content={verification} />}
+    <link rel="icon" href={withBase('/favicon.ico')} sizes="any" />
+    <link rel="icon" href={withBase('/favicon-32.png')} type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href={withBase('/apple-touch-icon.png')} />
+
+    <!-- Open Graph / social sharing -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:site_name" content={site.businessName} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(restaurant)} />
+    {breadcrumbList && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbList)} />}
+    {webSite && <script type="application/ld+json" set:html={JSON.stringify(webSite)} />}
+  </head>
+  <body data-hours={JSON.stringify(hoursData)}>
+    <a class="skip" href="#main">Skip to content</a>
+    {PREVIEW && (
+      <div class="ribbon" data-preview-ribbon>
+        Design preview for the owner of Kismat. This is not yet the official website, and its details are still being confirmed.
+      </div>
+    )}
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <Dock />
+    <script>
+      // Fade-in on scroll.
+      const items = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((en) => {
+            if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+          });
+        }, { rootMargin: '0px 0px -8% 0px' });
+        items.forEach((el) => io.observe(el));
+      } else {
+        items.forEach((el) => el.classList.add('in'));
+      }
+
+      // Open or closed, by the clock in Leicester.
+      const hours: { day: string; opens: string; closes: string }[] = JSON.parse(document.body.dataset.hours ?? '[]');
+      const parts = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/London', weekday: 'long', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(new Date());
+      const get = (t: string) => parts.find((p) => p.type === t)?.value ?? '';
+      const today = get('weekday');
+      const now = `${get('hour').padStart(2, '0')}:${get('minute')}`;
+      const clock = (t: string) => {
+        const [h, m] = t.split(':').map(Number);
+        const hour = h % 12 === 0 ? 12 : h % 12;
+        return `${hour}${m ? `:${String(m).padStart(2, '0')}` : ''}${h >= 12 ? 'pm' : 'am'}`;
+      };
+      document.querySelectorAll(`tr[data-day="${today}"]`).forEach((tr) => tr.classList.add('today'));
+      const idx = hours.findIndex((h) => h.day === today);
+      if (idx >= 0) {
+        const t = hours[idx];
+        let text = '';
+        let state = 'closed';
+        if (t.opens && now >= t.opens && now < t.closes) {
+          text = `Open now, until ${clock(t.closes)}`;
+          state = 'open';
+        } else if (t.opens && now < t.opens) {
+          text = `Closed now, opens at ${clock(t.opens)} today`;
+        } else {
+          for (let i = 1; i <= 7; i++) {
+            const n = hours[(idx + i) % 7];
+            if (n.opens) { text = `Closed now, opens ${n.day} at ${clock(n.opens)}`; break; }
+          }
+        }
+        document.querySelectorAll<HTMLElement>('[data-open-status]').forEach((el) => { el.textContent = text; el.dataset.state = state; });
+      }
+    </script>
+  </body>
+</html>

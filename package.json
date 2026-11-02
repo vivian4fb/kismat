@@ -1,0 +1,20 @@
+{
+  "name": "kismat-website",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "menu": "node scripts/menu-from-csv.mjs",
+    "build": "astro build && node scripts/check-dist.mjs",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "3.2.1",
+    "@fontsource-variable/cormorant": "^5.2.0",
+    "@fontsource-variable/figtree": "^5.2.0",
+    "astro": "^4.16.0"
+  }
+}
