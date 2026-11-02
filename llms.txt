@@ -1,0 +1,38 @@
+# Kismat
+
+> Kerala restaurant and takeaway at 52 Gateway Street, Leicester LE2 7DP, UK. 87 dishes including beef roast and porotta, kappa biriyani, Malabar dum biriyani, fish moilee, dosa, appam and mandi. Eat in, collection through its own ordering page, delivery through Just Eat.
+
+## Key facts
+- Address: 52 Gateway Street, Leicester LE2 7DP
+- Phone: 07577 602743
+- Opening hours: Monday 1pm-10pm; Tuesday closed; Wednesday 1pm-10pm; Thursday 1pm-10pm; Friday 1pm-11pm; Saturday 1pm-11pm; Sunday 1pm-11pm
+- Order for collection: https://order.kismatleicester.co.uk/
+- Order for delivery: https://www.just-eat.co.uk/restaurants-kismat-oadby/menu
+- Vegetarian dishes marked on the menu: 27 of 87
+- Online table booking is not available; call to arrange a table
+
+## Pages
+- [Menu with prices](https://vivian4fb.github.io/kismat/menu/)
+- [Order](https://vivian4fb.github.io/kismat/order/)
+- [Kerala food guide](https://vivian4fb.github.io/kismat/kerala-food-guide/)
+- [Catering](https://vivian4fb.github.io/kismat/catering/)
+- [About](https://vivian4fb.github.io/kismat/about/)
+- [Questions](https://vivian4fb.github.io/kismat/faq/)
+- [Contact and directions](https://vivian4fb.github.io/kismat/contact/)
+
+## Dishes
+- [Porotta & beef roast](https://vivian4fb.github.io/kismat/dishes/porotta-beef-roast/)
+- [Kappa biriyani](https://vivian4fb.github.io/kismat/dishes/kappa-biriyani/)
+- [Malabar dum biriyani](https://vivian4fb.github.io/kismat/dishes/malabar-dum-biriyani/)
+- [Mandi](https://vivian4fb.github.io/kismat/dishes/mandi/)
+- [Dosa](https://vivian4fb.github.io/kismat/dishes/dosa/)
+- [Kerala fish curry](https://vivian4fb.github.io/kismat/dishes/kerala-fish-curry/)
+
+## Delivery areas checked
+- [DMU](https://vivian4fb.github.io/kismat/areas/de-montfort-university/) (LE2 7)
+- [City centre](https://vivian4fb.github.io/kismat/areas/leicester-city-centre/) (LE1 5)
+- [Clarendon Park](https://vivian4fb.github.io/kismat/areas/clarendon-park/) (LE2 1)
+- [Highfields](https://vivian4fb.github.io/kismat/areas/highfields/) (LE2 0)
+- [Stoneygate](https://vivian4fb.github.io/kismat/areas/stoneygate/) (LE2 2)
+- [West End](https://vivian4fb.github.io/kismat/areas/west-end-narborough-road/) (LE3 0)
+- [Belgrave](https://vivian4fb.github.io/kismat/areas/belgrave/) (LE4 5)
